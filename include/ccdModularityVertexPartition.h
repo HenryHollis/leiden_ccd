@@ -40,9 +40,11 @@ private:
 
     double calcCCDsimple(const std::vector<std::vector<double>>& ref, const std::vector<std::vector<double>>& emat, const std::string& method, bool scale);
     long choose(int n, int k);
-    Vector rankify(Vector & X);
+    Vector rankVector(Vector & X);
     void printVector(const Vector &X);
     float cor(Vector &X, Vector &Y);
+    std::vector<Vector> calcCorMat(const std::vector<Vector>& ref);
+
 
 };
 

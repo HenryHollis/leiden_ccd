@@ -224,12 +224,11 @@ long choose(size_t n, int k) {
         return 1;
     return (n * choose(n - 1, k - 1)) / k;
 }
+
 /**
  * Spearman Correlation Code
  * Inspired from https://www.geeksforgeeks.org/program-spearmans-rank-correlation/
  */
-
-
 // Utility Function to print vector
 void printVector(const Vector &X) {
     for (auto i: X)
@@ -239,7 +238,7 @@ void printVector(const Vector &X) {
 
 // Function returns the rank vector
 // of the set of observations
-Vector rankify(Vector &X) {
+Vector rankVector(Vector &X) {
 
     int N = X.size();
 
@@ -275,7 +274,7 @@ Vector rankify(Vector &X) {
 
 // function that returns
 // Pearson correlation coefficient.
-float cor(Vector &X, Vector &Y) {
+float cor(const Vector &X, const Vector &Y) {
     int n = X.size();
     float sum_X = 0, sum_Y = 0,
             sum_XY = 0;
@@ -312,7 +311,50 @@ float cor(Vector &X, Vector &Y) {
     return corr;
 }
 
+// Function to calculate a symmetric correlation matrix
+std::vector<Vector> calcCorMat(const vector<Vector> &ref) {
+    size_t numCols = ref[0].size();
+    size_t numRows = ref.size();
 
+    // Initialize the correlation matrix with zeros
+    std::vector<Vector> correlationMatrix(numCols, Vector(numCols, 0.0));
+
+    // Calculate pairwise correlations
+    for (size_t i = 0; i < numCols; ++i) {
+        for (size_t j = i; j < numCols; ++j) {
+            if (i == j) {
+                // Diagonal elements (correlation with itself) are always 1
+                correlationMatrix[i][j] = 1.0;
+            } else {
+                // Off-diagonal elements are calculated using the cor function
+                correlationMatrix[i][j] = correlationMatrix[j][i] = cor(ref[i], ref[j]);
+            }
+        }
+    }
+
+    return correlationMatrix;
+}
+
+int main() {
+    // Example usage
+    std::vector<std::vector<float>> ref = {
+            {1.0, 2.0, 3.0},
+            {4.0, 5.0, 6.0},
+            {7.0, 8.0, 9.0}
+    };
+
+    std::vector<std::vector<float>> correlationMatrix = calculateCorrelationMatrix(ref);
+
+    // Display the correlation matrix
+    for (const auto& row : correlationMatrix) {
+        for (float value : row) {
+            std::cout << value << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
+}
 
 
 
