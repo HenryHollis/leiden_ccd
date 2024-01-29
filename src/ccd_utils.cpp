@@ -18,29 +18,25 @@ double ccd_utils::calcCCDsimple(const std::vector<Vector> &ref,
     }
     size_t numRows = ref.size();
     double upperTriDiff = 0.0;
-    //loop through triangular matrix and accumulate the difference between entries of ref and emat
+    //loop through triangular matrix and accumulate the difference between entries of ref and cormat
     for (size_t i = 0; i < numRows; ++i) {
         for (size_t j = i; j < numRows; ++j) {
-            upperTriDiff += ref[i][j] - emat[i][j];
+            upperTriDiff += pow(ref[i][j] - cormat[i][j], 2);
         }
     }
+    double ccd = sqrt(upperTriDiff);
 
-//    if (!ref.empty() && !ref[0].empty()) {
-//        // Number of columns is the size of any row (assuming all rows have the same size)
-//        size_t numColumns = ref[0].size();
-//        if (scale) {
-//            size_t nPairs = choose(numColumns, 2);
-//            ccd /= static_cast<double>(nPairs);
-//        }
-//    } else {
-//        std::cerr << "Matrix ref is empty or has empty rows." << std::endl;
-//    }
-//
-//    // Placeholder: Scale ccd if requested
-//
-//
-//    return ccd;
-    return 0;
+    if (!ref.empty() && !ref[0].empty()) {
+        // Number of columns is the size of any row (assuming all rows have the same size)
+        size_t numColumns = ref[0].size();
+        if (scale) {
+            size_t nPairs = choose(numColumns, 2);
+            ccd /= static_cast<double>(nPairs);
+        }
+    } else
+        std::cerr << "Matrix ref is empty or has empty rows." << std::endl;
+
+    return ccd;
 }
 
 std::vector<Vector> ccd_utils::calcCorMat(const std::vector<Vector> &ref) {
