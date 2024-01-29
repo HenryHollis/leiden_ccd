@@ -16,6 +16,8 @@ add_library(libleidenalg
         include/Optimiser.h
         src/ccdModularityVertexPartition.cpp
         include/ccdModularityVertexPartition.h
+        src/ccd_utils.cpp
+        include/ccd_utils.h
 )
 
 
@@ -49,8 +51,10 @@ target_include_directories(
 target_link_libraries (libleidenalg PUBLIC igraph::igraph)
 
 #For adding example.cpp with Main()
-add_executable(example examples/example.cpp)
-add_executable(example2 examples/example2.cpp)
+add_executable(example tests/example.cpp)
+add_executable(example2 tests/example2.cpp)
+add_executable(test_calcCorMat tests/test_calcCorMat.cpp)
 
 target_link_libraries(example libleidenalg)
 target_link_libraries(example2 libleidenalg)
+target_link_libraries(test_calcCorMat libleidenalg)

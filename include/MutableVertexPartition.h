@@ -7,7 +7,7 @@
 #include <queue>
 #include <utility>
 #include <algorithm>
-
+#include "ccd_utils.h"
 using std::string;
 using std::map;
 using std::make_pair;

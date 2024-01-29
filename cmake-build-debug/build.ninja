@@ -89,6 +89,14 @@ build CMakeFiles/libleidenalg.dir/src/ccdModularityVertexPartition.cpp.o: CXX_CO
   OBJECT_DIR = CMakeFiles/libleidenalg.dir
   OBJECT_FILE_DIR = CMakeFiles/libleidenalg.dir/src
 
+build CMakeFiles/libleidenalg.dir/src/ccd_utils.cpp.o: CXX_COMPILER__libleidenalg_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/src/ccd_utils.cpp || cmake_object_order_depends_target_libleidenalg
+  DEFINES = -DIGRAPH_STATIC
+  DEP_FILE = CMakeFiles/libleidenalg.dir/src/ccd_utils.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug/include -I/Users/henryhollis/CLionProjects/leiden_ccd/include -isystem /usr/local/include/igraph -isystem /usr/local/include
+  OBJECT_DIR = CMakeFiles/libleidenalg.dir
+  OBJECT_FILE_DIR = CMakeFiles/libleidenalg.dir/src
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target libleidenalg
@@ -97,7 +105,7 @@ build CMakeFiles/libleidenalg.dir/src/ccdModularityVertexPartition.cpp.o: CXX_CO
 #############################################
 # Link the static library liblibleidenalg.a
 
-build liblibleidenalg.a: CXX_STATIC_LIBRARY_LINKER__libleidenalg_Debug CMakeFiles/libleidenalg.dir/src/GraphHelper.cpp.o CMakeFiles/libleidenalg.dir/src/ModularityVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/MutableVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/Optimiser.cpp.o CMakeFiles/libleidenalg.dir/src/ccdModularityVertexPartition.cpp.o
+build liblibleidenalg.a: CXX_STATIC_LIBRARY_LINKER__libleidenalg_Debug CMakeFiles/libleidenalg.dir/src/GraphHelper.cpp.o CMakeFiles/libleidenalg.dir/src/ModularityVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/MutableVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/Optimiser.cpp.o CMakeFiles/libleidenalg.dir/src/ccdModularityVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/ccd_utils.cpp.o
   ARCH_FLAGS = -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/libleidenalg.dir
@@ -115,13 +123,13 @@ build liblibleidenalg.a: CXX_STATIC_LIBRARY_LINKER__libleidenalg_Debug CMakeFile
 
 build cmake_object_order_depends_target_example: phony || cmake_object_order_depends_target_libleidenalg
 
-build CMakeFiles/example.dir/examples/example.cpp.o: CXX_COMPILER__example_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/examples/example.cpp || cmake_object_order_depends_target_example
+build CMakeFiles/example.dir/tests/example.cpp.o: CXX_COMPILER__example_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/tests/example.cpp || cmake_object_order_depends_target_example
   DEFINES = -DIGRAPH_STATIC
-  DEP_FILE = CMakeFiles/example.dir/examples/example.cpp.o.d
+  DEP_FILE = CMakeFiles/example.dir/tests/example.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug/include -I/Users/henryhollis/CLionProjects/leiden_ccd/include -isystem /usr/local/include/igraph -isystem /usr/local/include
   OBJECT_DIR = CMakeFiles/example.dir
-  OBJECT_FILE_DIR = CMakeFiles/example.dir/examples
+  OBJECT_FILE_DIR = CMakeFiles/example.dir/tests
 
 
 # =============================================================================
@@ -131,7 +139,7 @@ build CMakeFiles/example.dir/examples/example.cpp.o: CXX_COMPILER__example_unsca
 #############################################
 # Link the executable example
 
-build example: CXX_EXECUTABLE_LINKER__example_Debug CMakeFiles/example.dir/examples/example.cpp.o | liblibleidenalg.a /usr/local/lib/libigraph.a /opt/homebrew/lib/libgmp.dylib /opt/homebrew/lib/libgmp.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd /opt/homebrew/lib/libomp.dylib || liblibleidenalg.a
+build example: CXX_EXECUTABLE_LINKER__example_Debug CMakeFiles/example.dir/tests/example.cpp.o | liblibleidenalg.a /usr/local/lib/libigraph.a /opt/homebrew/lib/libgmp.dylib /opt/homebrew/lib/libgmp.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd /opt/homebrew/lib/libomp.dylib || liblibleidenalg.a
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
   LINK_LIBRARIES = liblibleidenalg.a  /usr/local/lib/libigraph.a  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -lm  -ldl  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd  /opt/homebrew/lib/libomp.dylib
   OBJECT_DIR = CMakeFiles/example.dir
@@ -149,13 +157,13 @@ build example: CXX_EXECUTABLE_LINKER__example_Debug CMakeFiles/example.dir/examp
 
 build cmake_object_order_depends_target_example2: phony || cmake_object_order_depends_target_libleidenalg
 
-build CMakeFiles/example2.dir/examples/example2.cpp.o: CXX_COMPILER__example2_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/examples/example2.cpp || cmake_object_order_depends_target_example2
+build CMakeFiles/example2.dir/tests/example2.cpp.o: CXX_COMPILER__example2_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/tests/example2.cpp || cmake_object_order_depends_target_example2
   DEFINES = -DIGRAPH_STATIC
-  DEP_FILE = CMakeFiles/example2.dir/examples/example2.cpp.o.d
+  DEP_FILE = CMakeFiles/example2.dir/tests/example2.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug/include -I/Users/henryhollis/CLionProjects/leiden_ccd/include -isystem /usr/local/include/igraph -isystem /usr/local/include
   OBJECT_DIR = CMakeFiles/example2.dir
-  OBJECT_FILE_DIR = CMakeFiles/example2.dir/examples
+  OBJECT_FILE_DIR = CMakeFiles/example2.dir/tests
 
 
 # =============================================================================
@@ -165,7 +173,7 @@ build CMakeFiles/example2.dir/examples/example2.cpp.o: CXX_COMPILER__example2_un
 #############################################
 # Link the executable example2
 
-build example2: CXX_EXECUTABLE_LINKER__example2_Debug CMakeFiles/example2.dir/examples/example2.cpp.o | liblibleidenalg.a /usr/local/lib/libigraph.a /opt/homebrew/lib/libgmp.dylib /opt/homebrew/lib/libgmp.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd /opt/homebrew/lib/libomp.dylib || liblibleidenalg.a
+build example2: CXX_EXECUTABLE_LINKER__example2_Debug CMakeFiles/example2.dir/tests/example2.cpp.o | liblibleidenalg.a /usr/local/lib/libigraph.a /opt/homebrew/lib/libgmp.dylib /opt/homebrew/lib/libgmp.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd /opt/homebrew/lib/libomp.dylib || liblibleidenalg.a
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
   LINK_LIBRARIES = liblibleidenalg.a  /usr/local/lib/libigraph.a  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -lm  -ldl  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd  /opt/homebrew/lib/libomp.dylib
   OBJECT_DIR = CMakeFiles/example2.dir
@@ -173,6 +181,40 @@ build example2: CXX_EXECUTABLE_LINKER__example2_Debug CMakeFiles/example2.dir/ex
   PRE_LINK = :
   TARGET_FILE = example2
   TARGET_PDB = example2.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target test_calcCorMat
+
+
+#############################################
+# Order-only phony target for test_calcCorMat
+
+build cmake_object_order_depends_target_test_calcCorMat: phony || cmake_object_order_depends_target_libleidenalg
+
+build CMakeFiles/test_calcCorMat.dir/tests/test_calcCorMat.cpp.o: CXX_COMPILER__test_calcCorMat_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/tests/test_calcCorMat.cpp || cmake_object_order_depends_target_test_calcCorMat
+  DEFINES = -DIGRAPH_STATIC
+  DEP_FILE = CMakeFiles/test_calcCorMat.dir/tests/test_calcCorMat.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug/include -I/Users/henryhollis/CLionProjects/leiden_ccd/include -isystem /usr/local/include/igraph -isystem /usr/local/include
+  OBJECT_DIR = CMakeFiles/test_calcCorMat.dir
+  OBJECT_FILE_DIR = CMakeFiles/test_calcCorMat.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target test_calcCorMat
+
+
+#############################################
+# Link the executable test_calcCorMat
+
+build test_calcCorMat: CXX_EXECUTABLE_LINKER__test_calcCorMat_Debug CMakeFiles/test_calcCorMat.dir/tests/test_calcCorMat.cpp.o | liblibleidenalg.a /usr/local/lib/libigraph.a /opt/homebrew/lib/libgmp.dylib /opt/homebrew/lib/libgmp.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd /opt/homebrew/lib/libomp.dylib || liblibleidenalg.a
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
+  LINK_LIBRARIES = liblibleidenalg.a  /usr/local/lib/libigraph.a  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -lm  -ldl  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd  /opt/homebrew/lib/libomp.dylib
+  OBJECT_DIR = CMakeFiles/test_calcCorMat.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = test_calcCorMat
+  TARGET_PDB = test_calcCorMat.dbg
 
 
 #############################################
@@ -210,7 +252,7 @@ build libleidenalg: phony liblibleidenalg.a
 #############################################
 # Folder: /Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug
 
-build all: phony liblibleidenalg.a example example2
+build all: phony liblibleidenalg.a example example2 test_calcCorMat
 
 # =============================================================================
 # Built-in targets

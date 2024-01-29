@@ -6,7 +6,7 @@
 #define LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H
 
 #include "MutableVertexPartition.h"
-typedef vector<float> Vector;
+typedef vector<double> Vector;
 
 class LIBLEIDENALG_EXPORT ccdModularityVertexPartition : public MutableVertexPartition
 {
@@ -15,7 +15,7 @@ public:
     // Constructor with matrix initialization
     ccdModularityVertexPartition(Graph* graph,
                                  vector<size_t> const& membership,
-                                 const std::vector<std::vector<double>>& geneSampleMatrix);
+                                 const std::vector<Vector>& geneSampleMatrix);
     ccdModularityVertexPartition(Graph* graph,
                               vector<size_t> const& membership);
     ccdModularityVertexPartition(Graph* graph);
@@ -23,28 +23,20 @@ public:
     virtual ~ccdModularityVertexPartition();
     virtual ccdModularityVertexPartition* create(Graph* graph);
     virtual ccdModularityVertexPartition* create(Graph* graph, vector<size_t> const& membership);
-    virtual ccdModularityVertexPartition* create(Graph* graph, vector<size_t> const& membership, const std::vector<std::vector<double>>& geneSampleMatrix);
+    virtual ccdModularityVertexPartition* create(Graph* graph, vector<size_t> const& membership, const std::vector<Vector>& geneSampleMatrix);
 
     virtual double diff_move(size_t v, size_t new_comm);
     virtual double quality();
 //     Setter method for the matrix
-    void setGeneSampleMatrix(const std::vector<std::vector<double>>& geneSampleMatrix);
+    void setGeneSampleMatrix(const std::vector<Vector>& geneSampleMatrix);
 
     // Getter for geneSampleMatrix
-    [[nodiscard]] const std::vector<std::vector<double>>& getMatrix();
+    [[nodiscard]] const std::vector<Vector>& getMatrix();
 
 protected:
 private:
     // Matrix representing genes and samples
-    std::vector<std::vector<double>> geneSampleMatrix;
-
-    double calcCCDsimple(const std::vector<std::vector<double>>& ref, const std::vector<std::vector<double>>& emat, const std::string& method, bool scale);
-    long choose(int n, int k);
-    Vector rankVector(Vector & X);
-    void printVector(const Vector &X);
-    float cor(Vector &X, Vector &Y);
-    std::vector<Vector> calcCorMat(const std::vector<Vector>& ref);
-
+    std::vector<Vector> geneSampleMatrix;
 
 };
 
