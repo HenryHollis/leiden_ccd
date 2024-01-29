@@ -6,6 +6,7 @@
 #define LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H
 
 #include "MutableVertexPartition.h"
+typedef vector<float> Vector;
 
 class LIBLEIDENALG_EXPORT ccdModularityVertexPartition : public MutableVertexPartition
 {
@@ -36,6 +37,13 @@ protected:
 private:
     // Matrix representing genes and samples
     std::vector<std::vector<double>> geneSampleMatrix;
+
+    double calcCCDsimple(const std::vector<std::vector<double>>& ref, const std::vector<std::vector<double>>& emat, const std::string& method, bool scale);
+    long choose(int n, int k);
+    Vector rankify(Vector & X);
+    void printVector(const Vector &X);
+    float cor(Vector &X, Vector &Y);
+
 };
 
 #endif //LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H
