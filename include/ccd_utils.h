@@ -9,7 +9,7 @@
 typedef std::vector<double> Vector;
 class ccd_utils {
 public:
-
+    static std::vector<Vector> sliceColumns(const std::vector<Vector>& matrix, const std::vector<size_t>& columns);
     static double calcCCDsimple(const std::vector<Vector> &ref, const std::vector<Vector> &emat, bool scale);
     static std::vector<Vector> calcCorMat(const std::vector<Vector> &ref);
     static long choose(size_t n, int k);

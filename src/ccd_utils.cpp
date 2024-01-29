@@ -172,3 +172,20 @@ float ccd_utils::cor(const Vector &X, const Vector &Y) {
     return corr;
 }
 
+
+
+
+std::vector<Vector> ccd_utils::sliceColumns(const std::vector<Vector> &matrix, const std::vector<size_t> &columns)  {
+    if (matrix.empty() || columns.empty()) {
+        return {}; // Return an empty matrix if either the matrix or columns are empty
+    }
+
+    std::vector<Vector> result(matrix.size(), std::vector<double>(columns.size()));
+
+    for (size_t i = 0; i < matrix.size(); ++i) {
+        std::transform(columns.begin(), columns.end(), result[i].begin(),
+                       [&matrix, i](size_t col) { return matrix[i][col]; });
+    }
+
+    return result;
+}
