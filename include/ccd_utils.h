@@ -19,5 +19,8 @@ public:
     static Vector rankVector(Vector &X);
 
     static float cor(const Vector &X, const Vector &Y);
+
+    static const std::vector<Vector> refCor;  // refCor declaration
+
 };
 #endif //LEIDEN_CCD_CCD_UTILS_H
