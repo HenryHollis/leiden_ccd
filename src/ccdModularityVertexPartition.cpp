@@ -66,27 +66,27 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     #ifdef DEBUG
       cerr << "\t" << "old_comm: " << old_comm << endl;
     #endif
-    double w_to_old = this->weight_to_comm(v, old_comm);
+    double w_to_old = this->weight_to_comm(v, old_comm); //sum of edges going to old community
     #ifdef DEBUG
       cerr << "\t" << "w_to_old: " << w_to_old << endl;
     #endif
-    double w_from_old = this->weight_from_comm(v, old_comm);
+    double w_from_old = this->weight_from_comm(v, old_comm); //sum of edges coming from old community
     #ifdef DEBUG
       cerr << "\t" << "w_from_old: " << w_from_old << endl;
     #endif
-    double w_to_new = this->weight_to_comm(v, new_comm);
+    double w_to_new = this->weight_to_comm(v, new_comm); //sum of edges going to new community
     #ifdef DEBUG
       cerr << "\t" << "w_to_new: " << w_to_new << endl;
     #endif
-    double w_from_new = this->weight_from_comm(v, new_comm);
+    double w_from_new = this->weight_from_comm(v, new_comm); //sum of edges coming from new community
     #ifdef DEBUG
       cerr << "\t" << "w_from_new: " << w_from_new << endl;
     #endif
-    double k_out = this->graph->strength(v, IGRAPH_OUT);
+    double k_out = this->graph->strength(v, IGRAPH_OUT); //sum of all edges leaving node v
     #ifdef DEBUG
       cerr << "\t" << "k_out: " << k_out << endl;
     #endif
-    double k_in = this->graph->strength(v, IGRAPH_IN);
+    double k_in = this->graph->strength(v, IGRAPH_IN); //sum of all edges coming into v
     #ifdef DEBUG
       cerr << "\t" << "k_in: " << k_in << endl;
     #endif
@@ -94,11 +94,11 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     #ifdef DEBUG
       cerr << "\t" << "self_weight: " << self_weight << endl;
     #endif
-    double K_out_old = this->total_weight_from_comm(old_comm);
+    double K_out_old = this->total_weight_from_comm(old_comm); //total weights of edges leaving OLD community
     #ifdef DEBUG
       cerr << "\t" << "K_out_old: " << K_out_old << endl;
     #endif
-    double K_in_old = this->total_weight_to_comm(old_comm);
+    double K_in_old = this->total_weight_to_comm(old_comm);  //total weights of edges Entering OLD community
     #ifdef DEBUG
       cerr << "\t" << "K_in_old: " << K_in_old << endl;
     #endif
