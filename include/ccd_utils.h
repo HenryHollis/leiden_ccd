@@ -14,7 +14,7 @@ public:
     static std::vector<Vector> calcCorMat(const std::vector<Vector> &ref);
     static long choose(size_t n, int k);
 
-    static void printVector(const Vector &X);
+    static void printVector(const std::vector <size_t> &X);
 
     static Vector rankVector(Vector &X);
 

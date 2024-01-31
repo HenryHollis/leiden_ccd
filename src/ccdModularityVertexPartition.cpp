@@ -41,7 +41,10 @@ ccdModularityVertexPartition *ccdModularityVertexPartition::create(Graph *graph,
 }
 
 void ccdModularityVertexPartition::setGeneSampleMatrix(const vector<Vector> &geneSampleMatrix) {
-    this->geneSampleMatrix = geneSampleMatrix;
+    if( !geneSampleMatrix[0].empty() && geneSampleMatrix[0].size() == this->graph->vcount()){
+        this->geneSampleMatrix = geneSampleMatrix;
+    } else
+        throw std::invalid_argument("Matrix must have same number of cols as graph object has nodes");
 }
 
 const std::vector<Vector> &ccdModularityVertexPartition::getMatrix() {
@@ -59,10 +62,32 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
   size_t old_comm = this->_membership[v]; //what community is v in?
   double diff = 0.0;
   double total_weight = this->graph->total_weight()*(2.0 - this->graph->is_directed());
+
+  std::vector<size_t> Nodes_in_old_comm = this->get_community(old_comm);
+  std::vector<size_t> Nodes_in_new_comm = this->get_community(new_comm);
+  Nodes_in_new_comm.push_back(v); // the nodes in the new community union v
+  double old_ccd = 0.0;
+  double new_ccd = 0.0;
+
   if (total_weight == 0.0)
     return 0.0;
   if (new_comm != old_comm)
   {
+      // ********CALC CCD*************
+      //TODO: At some point in optimization, this becomes empty...
+      std::vector<Vector> emat = this->getMatrix(); //Get the expression matrix associated with the partition object
+
+      // calculate ccd in old community if enough nodes are aggregated into c's community:
+      if (CCD_COMM_SIZE < Nodes_in_old_comm.size()) {
+          std::vector<Vector> comm_emat = ccd_utils::sliceColumns(emat, Nodes_in_old_comm);
+          old_ccd += ccd_utils::calcCCDsimple(ccd_utils::refCor, comm_emat, false);
+      }
+      //calc ccd of adding v into new community
+      if (CCD_COMM_SIZE < Nodes_in_new_comm.size()) {
+          std::vector<Vector> comm_emat = ccd_utils::sliceColumns(emat, Nodes_in_new_comm);
+          new_ccd += ccd_utils::calcCCDsimple(ccd_utils::refCor, comm_emat, false);
+      }
+      //****************************
     #ifdef DEBUG
       cerr << "\t" << "old_comm: " << old_comm << endl;
     #endif

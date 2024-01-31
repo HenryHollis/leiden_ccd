@@ -10,7 +10,7 @@ int main() {
   double ccd = ccd_utils::calcCCDsimple(ccd_utils::refCor, ccd_utils::refCor , false);
 
 //Also test the slice columns functionality, slicing the first 6 columns of the refcor to form a new emat
-  double ccd2 = ccd_utils::calcCCDsimple(ccd_utils::refCor, ccd_utils::sliceColumns(ccd_utils::refCor, {0,1,2,3,4,5}), false);
+  double ccd2 = ccd_utils::calcCCDsimple(ccd_utils::refCor, ccd_utils::sliceColumns(ccd_utils::refCor, {0, 1}), false);
 
   //Verify in deltaccd package, these are the same answers you get
   cout << "calcCCDsimple: " <<ccd <<endl;
@@ -32,6 +32,8 @@ int main() {
     }catch (const std::invalid_argument& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
+
+
 
     return 0;
 }

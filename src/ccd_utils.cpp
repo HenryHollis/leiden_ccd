@@ -28,6 +28,7 @@ double ccd_utils::calcCCDsimple(const std::vector<Vector> &ref,
 
     std::vector<Vector> cormat = calcCorMat(emat); //calculate cormat of expression matrix
     if (cormat.size() != ref.size() || cormat.empty() || ref[0].size() != cormat[0].size()) {
+        std::cerr << "cormat size:" << cormat.size() << std::endl;
         throw std::invalid_argument("Matrices must be of the same size for calcCCDsimple");
     }
     size_t numRows = ref.size();
@@ -91,7 +92,7 @@ long ccd_utils::choose(size_t n, int k) {
  * Inspired from https://www.geeksforgeeks.org/program-spearmans-rank-correlation/
  */
 // Utility Function to print vector
-void ccd_utils::printVector(const Vector &X) {
+void ccd_utils::printVector(const std::vector<size_t> &X) {
     for (auto i: X)
         std::cout <<i<<" ";
     std::cout << std::endl;
