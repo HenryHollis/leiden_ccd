@@ -27,12 +27,19 @@ ccdModularityVertexPartition::~ccdModularityVertexPartition()
 
 ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph)
 {
-    return new ccdModularityVertexPartition(graph);
+   std::vector<Vector> GeneMatrix = this->geneSampleMatrix;
+    auto* tmp = new ccdModularityVertexPartition(graph);
+    tmp->geneSampleMatrix = GeneMatrix;
+    return tmp;
+
 }
 
 ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph, vector<size_t> const& membership)
 {
-    return new ccdModularityVertexPartition(graph, membership);
+    std::vector<Vector> GeneMatrix = this->geneSampleMatrix;
+    auto* tmp = new  ccdModularityVertexPartition(graph, membership);
+    tmp->geneSampleMatrix = GeneMatrix;
+    return tmp;
 }
 
 ccdModularityVertexPartition *ccdModularityVertexPartition::create(Graph *graph, const vector<size_t> &membership,

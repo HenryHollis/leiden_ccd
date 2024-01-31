@@ -27,7 +27,7 @@ public:
 
     virtual double diff_move(size_t v, size_t new_comm);
     virtual double quality();
-//     Setter method for the matrix
+    //  Setter method for the matrix
     void setGeneSampleMatrix(const std::vector<Vector>& geneSampleMatrix);
 
     // Getter for geneSampleMatrix
