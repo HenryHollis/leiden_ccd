@@ -823,7 +823,7 @@ double Optimiser::merge_nodes(vector<MutableVertexPartition*> partitions, vector
       cerr << "Consider moving node " << v << " from " << v_comm << "." << endl;
     #endif
 
-    if (partitions[0]->cnodes(v_comm) == 1)
+    if (partitions[0]->cnodes(v_comm) == 1)  //if singleton community
     {
       if (consider_comms == ALL_COMMS)
       {

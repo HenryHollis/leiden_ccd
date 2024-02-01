@@ -18,12 +18,12 @@ int main(void) {
     igraph_empty(&g, 0, IGRAPH_UNDIRECTED);
 
     /* Add 5 vertices. Vertex IDs will range from 0 to 4, inclusive. */
-    igraph_add_vertices(&g, 6, NULL);
+    igraph_add_vertices(&g, 7, NULL);
 
     /* Add 5 edges, specified as 5 consecutive pairs of vertex IDs
      * stored in an integer vector. */
-    igraph_vector_int_init_int(&edges, 14,
-                               0,1, 0,2, 2,1, 1,3, 3,4, 4,5,  5,3);
+    igraph_vector_int_init_int(&edges, 16,
+                               0,1, 0,2, 2,1, 1,3, 3,4, 4,5,  5,3,  3,6);
     igraph_add_edges(&g, &edges, NULL);
     igraph_vector_int_destroy(&edges);
     igraph_write_graph_dot(&g, stdout);
