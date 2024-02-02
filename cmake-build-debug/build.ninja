@@ -275,6 +275,80 @@ build test_calcCCDsimple: CXX_EXECUTABLE_LINKER__test_calcCCDsimple_Debug CMakeF
   TARGET_FILE = test_calcCCDsimple
   TARGET_PDB = test_calcCCDsimple.pdb
 
+# =============================================================================
+# Object build statements for EXECUTABLE target simple_igraph_creation
+
+
+#############################################
+# Order-only phony target for simple_igraph_creation
+
+build cmake_object_order_depends_target_simple_igraph_creation: phony || cmake_object_order_depends_target_libleidenalg
+
+build CMakeFiles/simple_igraph_creation.dir/tests/simple_igraph_creation.cpp.o: CXX_COMPILER__simple_igraph_creation_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/tests/simple_igraph_creation.cpp || cmake_object_order_depends_target_simple_igraph_creation
+  DEFINES = -DIGRAPH_STATIC
+  DEP_FILE = CMakeFiles/simple_igraph_creation.dir/tests/simple_igraph_creation.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug/include -I/Users/henryhollis/CLionProjects/leiden_ccd/include -isystem /usr/local/include/igraph -isystem /usr/local/include
+  OBJECT_DIR = CMakeFiles/simple_igraph_creation.dir
+  OBJECT_FILE_DIR = CMakeFiles/simple_igraph_creation.dir/tests
+  TARGET_COMPILE_PDB = CMakeFiles/simple_igraph_creation.dir/
+  TARGET_PDB = simple_igraph_creation.pdb
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target simple_igraph_creation
+
+
+#############################################
+# Link the executable simple_igraph_creation
+
+build simple_igraph_creation: CXX_EXECUTABLE_LINKER__simple_igraph_creation_Debug CMakeFiles/simple_igraph_creation.dir/tests/simple_igraph_creation.cpp.o | liblibleidenalg.a /usr/local/lib/libigraph.a /opt/homebrew/lib/libgmp.dylib /opt/homebrew/lib/libgmp.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd /opt/homebrew/lib/libomp.dylib || liblibleidenalg.a
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
+  LINK_LIBRARIES = liblibleidenalg.a  /usr/local/lib/libigraph.a  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -lm  -ldl  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd  /opt/homebrew/lib/libomp.dylib
+  OBJECT_DIR = CMakeFiles/simple_igraph_creation.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_COMPILE_PDB = CMakeFiles/simple_igraph_creation.dir/
+  TARGET_FILE = simple_igraph_creation
+  TARGET_PDB = simple_igraph_creation.pdb
+
+# =============================================================================
+# Object build statements for EXECUTABLE target Multiplex_optimization_example
+
+
+#############################################
+# Order-only phony target for Multiplex_optimization_example
+
+build cmake_object_order_depends_target_Multiplex_optimization_example: phony || cmake_object_order_depends_target_libleidenalg
+
+build CMakeFiles/Multiplex_optimization_example.dir/tests/Multiplex_optimization_example.cpp.o: CXX_COMPILER__Multiplex_optimization_example_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/tests/Multiplex_optimization_example.cpp || cmake_object_order_depends_target_Multiplex_optimization_example
+  DEFINES = -DIGRAPH_STATIC
+  DEP_FILE = CMakeFiles/Multiplex_optimization_example.dir/tests/Multiplex_optimization_example.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug/include -I/Users/henryhollis/CLionProjects/leiden_ccd/include -isystem /usr/local/include/igraph -isystem /usr/local/include
+  OBJECT_DIR = CMakeFiles/Multiplex_optimization_example.dir
+  OBJECT_FILE_DIR = CMakeFiles/Multiplex_optimization_example.dir/tests
+  TARGET_COMPILE_PDB = CMakeFiles/Multiplex_optimization_example.dir/
+  TARGET_PDB = Multiplex_optimization_example.pdb
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target Multiplex_optimization_example
+
+
+#############################################
+# Link the executable Multiplex_optimization_example
+
+build Multiplex_optimization_example: CXX_EXECUTABLE_LINKER__Multiplex_optimization_example_Debug CMakeFiles/Multiplex_optimization_example.dir/tests/Multiplex_optimization_example.cpp.o | liblibleidenalg.a /usr/local/lib/libigraph.a /opt/homebrew/lib/libgmp.dylib /opt/homebrew/lib/libgmp.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd /opt/homebrew/lib/libomp.dylib || liblibleidenalg.a
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
+  LINK_LIBRARIES = liblibleidenalg.a  /usr/local/lib/libigraph.a  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -Xlinker -framework -Xlinker Accelerate  /opt/homebrew/lib/libgmp.dylib  -lm  -ldl  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libxml2.tbd  /opt/homebrew/lib/libomp.dylib
+  OBJECT_DIR = CMakeFiles/Multiplex_optimization_example.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_COMPILE_PDB = CMakeFiles/Multiplex_optimization_example.dir/
+  TARGET_FILE = Multiplex_optimization_example
+  TARGET_PDB = Multiplex_optimization_example.pdb
+
 
 #############################################
 # Utility command for edit_cache
@@ -311,7 +385,7 @@ build libleidenalg: phony liblibleidenalg.a
 #############################################
 # Folder: /Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug
 
-build all: phony liblibleidenalg.a example example2 test_calcCorMat test_calcCCDsimple
+build all: phony liblibleidenalg.a example example2 test_calcCorMat test_calcCCDsimple simple_igraph_creation Multiplex_optimization_example
 
 # =============================================================================
 # Built-in targets
