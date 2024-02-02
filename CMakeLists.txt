@@ -18,6 +18,12 @@ add_library(libleidenalg
         include/ccdModularityVertexPartition.h
         src/ccd_utils.cpp
         include/ccd_utils.h
+        src/RBERVertexPartition.cpp
+        include/RBERVertexPartition.h
+        src/LinearResolutionParameterVertexPartition.cpp
+        include/LinearResolutionParameterVertexPartition.h
+        include/ResolutionParameterVertexPartition.h
+        src/ResolutionParameterVertexPartition.cpp
 )
 
 

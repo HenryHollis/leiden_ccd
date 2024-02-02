@@ -3,6 +3,7 @@
 #include "Optimiser.h"
 #include "ModularityVertexPartition.h"
 #include "ccdModularityVertexPartition.h"
+#include "RBERVertexPartition.h"
 #include <cstdio>
 #include <random>
 
@@ -48,17 +49,21 @@ int main(void) {
     Graph graph(&g);
     ModularityVertexPartition part(&graph);
     ccdModularityVertexPartition part2(&graph);
+    RBERVertexPartition part3(&graph);
+
     part2.setGeneSampleMatrix(geneSampleMatrix);
     std::vector<bool> isMembershipFixed(7, false);
     Optimiser o; //create optimiser o
-    o.optimise_partition({&part, &part2}, {1., 1.},isMembershipFixed);
+    o.optimise_partition({&part, &part2, &part3}, {1., 1., 1.},isMembershipFixed);
     cout << "Node\tCommunity" << endl;
     for (int i = 0; i < graph.vcount(); i++)
         cout << i << "\t" << part.membership(i) << endl;
     cout << "Node\tCommunity" << endl;
     for (int i = 0; i < graph.vcount(); i++)
         cout << i << "\t" << part2.membership(i) << endl;
-
+    cout << "Node\tCommunity" << endl;
+    for (int i = 0; i < graph.vcount(); i++)
+        cout << i << "\t" << part3.membership(i) << endl;
     igraph_destroy(&g);
 
     return 0;
