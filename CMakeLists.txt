@@ -24,6 +24,8 @@ add_library(libleidenalg
         include/LinearResolutionParameterVertexPartition.h
         include/ResolutionParameterVertexPartition.h
         src/ResolutionParameterVertexPartition.cpp
+        src/LouvainOptimiser.cpp
+        include/LouvainOptimiser.h
 )
 
 

@@ -121,6 +121,14 @@ build CMakeFiles/libleidenalg.dir/src/ResolutionParameterVertexPartition.cpp.o: 
   OBJECT_DIR = CMakeFiles/libleidenalg.dir
   OBJECT_FILE_DIR = CMakeFiles/libleidenalg.dir/src
 
+build CMakeFiles/libleidenalg.dir/src/LouvainOptimiser.cpp.o: CXX_COMPILER__libleidenalg_unscanned_Debug /Users/henryhollis/CLionProjects/leiden_ccd/src/LouvainOptimiser.cpp || cmake_object_order_depends_target_libleidenalg
+  DEFINES = -DIGRAPH_STATIC
+  DEP_FILE = CMakeFiles/libleidenalg.dir/src/LouvainOptimiser.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/henryhollis/CLionProjects/leiden_ccd/cmake-build-debug/include -I/Users/henryhollis/CLionProjects/leiden_ccd/include -isystem /usr/local/include/igraph -isystem /usr/local/include
+  OBJECT_DIR = CMakeFiles/libleidenalg.dir
+  OBJECT_FILE_DIR = CMakeFiles/libleidenalg.dir/src
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target libleidenalg
@@ -129,7 +137,7 @@ build CMakeFiles/libleidenalg.dir/src/ResolutionParameterVertexPartition.cpp.o: 
 #############################################
 # Link the static library liblibleidenalg.a
 
-build liblibleidenalg.a: CXX_STATIC_LIBRARY_LINKER__libleidenalg_Debug CMakeFiles/libleidenalg.dir/src/GraphHelper.cpp.o CMakeFiles/libleidenalg.dir/src/ModularityVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/MutableVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/Optimiser.cpp.o CMakeFiles/libleidenalg.dir/src/ccdModularityVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/ccd_utils.cpp.o CMakeFiles/libleidenalg.dir/src/RBERVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/LinearResolutionParameterVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/ResolutionParameterVertexPartition.cpp.o
+build liblibleidenalg.a: CXX_STATIC_LIBRARY_LINKER__libleidenalg_Debug CMakeFiles/libleidenalg.dir/src/GraphHelper.cpp.o CMakeFiles/libleidenalg.dir/src/ModularityVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/MutableVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/Optimiser.cpp.o CMakeFiles/libleidenalg.dir/src/ccdModularityVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/ccd_utils.cpp.o CMakeFiles/libleidenalg.dir/src/RBERVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/LinearResolutionParameterVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/ResolutionParameterVertexPartition.cpp.o CMakeFiles/libleidenalg.dir/src/LouvainOptimiser.cpp.o
   ARCH_FLAGS = -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/libleidenalg.dir
