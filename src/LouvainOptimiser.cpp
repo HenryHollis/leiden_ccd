@@ -234,7 +234,7 @@ double LouvainOptimiser::optimise_partition(vector<MutableVertexPartition*> part
     // to the membership of the first graph.
     for (size_t layer = 0; layer < nb_layers; layer++)
     {
-        partitions[layer]->renumber_communities(membership);
+        partitions[layer]->set_membership(membership);
         q += partitions[layer]->quality()*layer_weights[layer];
     }
     return total_improv;
@@ -495,7 +495,7 @@ double LouvainOptimiser::move_nodes(vector<MutableVertexPartition*> partitions, 
     vector<size_t> const& membership = partitions[0]->membership();
     for (size_t layer = 1; layer < nb_layers; layer++)
     {
-        partitions[layer]->renumber_communities(membership);
+        partitions[layer]->set_membership(membership);
 #ifdef DEBUG
         cerr << "Renumbered communities for layer " << layer << " for " << partitions[layer]->nb_communities() << " communities." << endl;
 #endif //DEBUG

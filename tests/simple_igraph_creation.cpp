@@ -1,6 +1,7 @@
 #include <igraph/igraph.h>
 #include "GraphHelper.h"
 #include "Optimiser.h"
+#include "LouvainOptimiser.h"
 #include "ModularityVertexPartition.h"
 #include "ccdModularityVertexPartition.h"
 #include <cstdio>
@@ -37,7 +38,11 @@ int main(void) {
     for (int i = 0; i < graph.vcount(); i++)
         cout << i << "\t" << part.membership(i) << endl;
 
-
+    LouvainOptimiser l;
+    l.optimise_partition(&part);
+    cout << "Node\tCommunity" << endl;
+    for (int i = 0; i < graph.vcount(); i++)
+        cout << i << "\t" << part.membership(i) << endl;
     igraph_destroy(&g);
 
     return 0;

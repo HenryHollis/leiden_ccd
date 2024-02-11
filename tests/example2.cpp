@@ -3,6 +3,7 @@
 #include "Optimiser.h"
 #include "ModularityVertexPartition.h"
 #include "ccdModularityVertexPartition.h"
+#include "LouvainOptimiser.h"
 #include <cstdio>
 #include <random>
 
@@ -47,7 +48,7 @@ int main() {
         std::cout << std::endl;
     }
 
-    Optimiser o; //create optimiser o
+    LouvainOptimiser o; //create optimiser o
     o.optimise_partition(&part); //coptimise our ModularityVertexPartition obj
 
     cout << "Node\tCommunity" << endl;
