@@ -18,17 +18,19 @@ int main() {
 
     // Define the dimensions of the matrix
     const size_t rows = 12;
-    const size_t cols = 34;
+    const size_t cols = 1000;
     igraph_t g;
-    igraph_famous(&g, "Zachary");
+    igraph_erdos_renyi_game_gnp(
+            &g, 1000, .5,
+            false, false);
     Graph graph(&g);
 
     // Initialize the matrix with zeros
-    std::vector<std::vector<double>> geneSampleMatrix(rows, std::vector<double>(cols, 0.0));
+    std::vector<double> geneSampleMatrix(rows*cols, 0.);
 
     for (size_t i = 0; i < rows; ++i) {
         for (size_t j = 0; j < cols; ++j) {
-            geneSampleMatrix[i][j] = std::generate_canonical<double, 10>(gen);// Example: random doubles between 0 and 1
+            geneSampleMatrix[i * cols + j] = std::generate_canonical<double, 10>(gen);// Example: random doubles between 0 and 1
         }
     }
 
@@ -37,18 +39,18 @@ int main() {
     ccdModularityVertexPartition part(&graph); //creates a ModularityVertexPartition called part
     part.setGeneSampleMatrix(geneSampleMatrix);
 
-    const std::vector<std::vector<double>>& matrix = part.getMatrix();
+    const std::vector<double>& matrix = part.getMatrix();
 
     // Print the modified matrix
     std::cout << "\npart.matrix Matrix:" << std::endl;
     for (size_t i = 0; i < rows; ++i) {
         for (size_t j = 0; j < cols; ++j) {
-            std::cout << matrix[i][j] << " ";
+            std::cout << matrix[i * cols + j] << " ";
         }
         std::cout << std::endl;
     }
 
-    LouvainOptimiser o; //create optimiser o
+    Optimiser o; //create optimiser o
     o.optimise_partition(&part); //coptimise our ModularityVertexPartition obj
 
     cout << "Node\tCommunity" << endl;

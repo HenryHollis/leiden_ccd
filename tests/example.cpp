@@ -22,7 +22,7 @@ int main()
     o.optimise_partition(&part); //coptimise our ModularityVertexPartition obj
     cout<< "cnodes(1) after optimization: "<<part.cnodes(1) << endl;
     cout<< "All members of  node 3's community after opt: ";
-    ccd_utils::printVector(part.get_community(part.membership(3)));
+//    ccd_utils::printVector(part.get_community(part.membership(3)));
 
     cout << "Node\tCommunity" << endl;
     for (int i = 0; i < graph.vcount(); i++)

@@ -6,7 +6,7 @@ using std::cerr;
 using std::endl;
 #endif
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph *graph, const vector<size_t> &membership,
-                                                           const vector<Vector> &geneSampleMatrix):
+                                                           const vector<double> &geneSampleMatrix):
                                                            MutableVertexPartition(graph, membership),
                                                            geneSampleMatrix(geneSampleMatrix){
 
@@ -27,7 +27,7 @@ ccdModularityVertexPartition::~ccdModularityVertexPartition()
 
 ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph)
 {
-   std::vector<Vector> GeneMatrix = this->geneSampleMatrix;
+   std::vector<double> GeneMatrix = this->geneSampleMatrix;
     auto* tmp = new ccdModularityVertexPartition(graph);
     tmp->geneSampleMatrix = GeneMatrix;
     return tmp;
@@ -36,25 +36,25 @@ ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph)
 
 ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph, vector<size_t> const& membership)
 {
-    std::vector<Vector> GeneMatrix = this->geneSampleMatrix;
+    std::vector<double> GeneMatrix = this->geneSampleMatrix;
     auto* tmp = new  ccdModularityVertexPartition(graph, membership);
     tmp->geneSampleMatrix = GeneMatrix;
     return tmp;
 }
 
 ccdModularityVertexPartition *ccdModularityVertexPartition::create(Graph *graph, const vector<size_t> &membership,
-                                                                   const vector<Vector> &geneSampleMatrix) {
+                                                                   const vector<double> &geneSampleMatrix) {
     return new ccdModularityVertexPartition(graph, membership, geneSampleMatrix);
 }
 
-void ccdModularityVertexPartition::setGeneSampleMatrix(const vector<Vector> &geneSampleMatrix) {
-    if( !geneSampleMatrix[0].empty() && geneSampleMatrix[0].size() == this->graph->vcount()){
+void ccdModularityVertexPartition::setGeneSampleMatrix(const vector<double> &geneSampleMatrix) {
+    if( !geneSampleMatrix.empty()){
         this->geneSampleMatrix = geneSampleMatrix;
     } else
         throw std::invalid_argument("Matrix must have same number of cols as graph object has nodes");
 }
 
-const std::vector<Vector> &ccdModularityVertexPartition::getMatrix() {
+const std::vector<double> &ccdModularityVertexPartition::getMatrix() {
     return geneSampleMatrix;
 }
 
@@ -82,17 +82,18 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
   if (new_comm != old_comm)
   {
       // ********CALC CCD*************
-      std::vector<Vector> emat = this->getMatrix(); //Get the expression matrix associated with the partition object
+      std::vector<double> emat = this->getMatrix(); //Get the expression matrix associated with the partition object
 
       // calculate ccd in old community if enough nodes are aggregated into c's community:
       if (CCD_COMM_SIZE < Nodes_in_old_comm.size()) {
-          std::vector<Vector> comm_emat = ccd_utils::sliceColumns(emat, Nodes_in_old_comm);
-          old_ccd = ccd_utils::calcCCDsimple(ccd_utils::refCor, comm_emat, false);
+          std::vector<double> comm_emat = ccd_utils::sliceColumns(emat, Nodes_in_old_comm, 12,Nodes_in_old_comm.size() );
+          old_ccd = ccd_utils::calcCCDsimple(ccd_utils::refCor, 12, comm_emat, 12,Nodes_in_old_comm.size(), false);
       }
       //calc ccd of adding v into new community
       if (CCD_COMM_SIZE < Nodes_in_new_comm.size()) {
-          std::vector<Vector> comm_emat = ccd_utils::sliceColumns(emat, Nodes_in_new_comm);
-          new_ccd = ccd_utils::calcCCDsimple(ccd_utils::refCor, comm_emat, false);
+          std::vector<double> comm_emat = ccd_utils::sliceColumns(emat,  Nodes_in_new_comm, 12, Nodes_in_new_comm.size());
+          new_ccd = ccd_utils::calcCCDsimple(ccd_utils::refCor, 12, comm_emat, 12,Nodes_in_new_comm.size(), false);
+
       }
       //****************************
     #ifdef DEBUG
@@ -157,7 +158,7 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     #ifdef DEBUG
       cerr << "\t" << "diff: " << diff << endl;
     #endif
-      ccd_diff = old_ccd - new_ccd; //negative number returns smaller score
+//      ccd_diff = old_ccd - new_ccd; //negative number returns smaller score
   }
   #ifdef DEBUG
     cerr << "exit double ccdModularityVertexPartition::diff_move((" << v << ", " << new_comm << ")" << endl;
@@ -168,7 +169,7 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     m = this->graph->total_weight();
   else
     m = 2*this->graph->total_weight();
-    ccd_diff = isfinite(ccd_diff) ? ccd_diff : 0.0;
+//    ccd_diff = isfinite(ccd_diff) ? ccd_diff : 0.0;
   return diff/m; // + 0.1 * ccd_diff;
 }
 
