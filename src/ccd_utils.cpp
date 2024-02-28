@@ -69,11 +69,11 @@ std::vector<double> ccd_utils::calcCorMat(const std::vector<double> &rect, size_
                 // Pass a single row to the function
                 std::vector<double> rowToProcessi(rect.begin() + i * numCols, rect.begin() + (i + 1) * numCols);
                 std::vector<double> rowToProcessj(rect.begin() + j * numCols, rect.begin() + (j + 1) * numCols);
-                correlationMatrix[i * numRows + j] = correlationMatrix[i * numRows + j] = cor(rowToProcessi, rowToProcessj);
+//                correlationMatrix[i * numRows + j] = correlationMatrix[i * numRows + j] = cor(rowToProcessi, rowToProcessj);
 
-                //std::vector<double> rank_x = rankVector(rowToProcessi);
-                //std::vector<double> rank_y = rankVector(rowToProcessj);
-//                correlationMatrix[i * numRows + j] = correlationMatrix[i * numRows + j] = cor(rank_x, rank_y);
+                std::vector<double> rank_x = rankVector(rowToProcessi);
+                std::vector<double> rank_y = rankVector(rowToProcessj);
+                correlationMatrix[i * numRows + j] = correlationMatrix[i * numRows + j] = cor(rank_x, rank_y);
             }
         }
     }

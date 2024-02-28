@@ -65,6 +65,8 @@ add_executable(test_calcCorMat tests/test_calcCorMat.cpp)
 add_executable(test_calcCCDsimple tests/test_calcCCDsimple.cpp)
 add_executable(simple_igraph_creation tests/simple_igraph_creation.cpp)
 add_executable(Multiplex_optimization_example tests/Multiplex_optimization_example.cpp)
+add_executable(spearmanTest tests/spearman2.cpp)
+
 
 target_link_libraries(example libleidenalg)
 target_link_libraries(example2 libleidenalg)
@@ -72,3 +74,4 @@ target_link_libraries(test_calcCorMat libleidenalg)
 target_link_libraries(test_calcCCDsimple libleidenalg)
 target_link_libraries(simple_igraph_creation libleidenalg)
 target_link_libraries(Multiplex_optimization_example libleidenalg)
+target_link_libraries(spearmanTest libleidenalg)

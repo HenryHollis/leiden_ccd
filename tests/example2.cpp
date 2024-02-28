@@ -21,10 +21,10 @@ int main() {
     const size_t cols = 1000;
     igraph_t g;
     igraph_erdos_renyi_game_gnp(
-            &g, 1000, .5,
+            &g, 1000, .01,
             false, false);
     Graph graph(&g);
-
+    igraph_write_graph_dot(&g, stdout);
     // Initialize the matrix with zeros
     std::vector<double> geneSampleMatrix(rows*cols, 0.);
 
