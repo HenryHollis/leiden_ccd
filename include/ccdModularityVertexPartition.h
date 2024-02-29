@@ -27,15 +27,23 @@ public:
     virtual double diff_move(size_t v, size_t new_comm);
     virtual double quality();
     //  Setter method for the matrix
-    void setGeneSampleMatrix(const std::vector<double>& geneSampleMatrix);
+    void setGeneSampleMatrix(const std::vector<double>& geneSampleMatrix, size_t rows, size_t cols);
+    void setRefMatrix(const std::vector<double>& refMat, size_t rows, size_t cols);
 
     // Getter for geneSampleMatrix
-     const std::vector<double>& getMatrix();
+     const std::vector<double>& getGeneMatrix();
+     const std::vector<double> & getRefMatrix();
 
 protected:
 private:
     // Matrix representing genes and samples
     std::vector<double> geneSampleMatrix;
+    size_t geneMatRows;
+    size_t geneMatCols;
+    std::vector<double> refMatrix;
+    size_t refMatRows;
+    size_t refMatCols;
+
 
 };
 

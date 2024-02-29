@@ -22,7 +22,7 @@ public:
 
     static double cor(const std::vector<double> &X, const std::vector<double> &Y);
 
-    static const std::vector<double> refCor;  // refCor declaration
+    //static const std::vector<double> refCor;  // refCor declaration
 
 };
 #endif //LEIDEN_CCD_CCD_UTILS_H
