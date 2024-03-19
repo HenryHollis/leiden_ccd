@@ -9,19 +9,17 @@ using std::endl;
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph *graph, const vector<size_t> &membership,
                                                            const vector<double> &geneSampleMatrix):
         MutableVertexPartition(graph, membership),
-        geneSampleMatrix(geneSampleMatrix),
-        _fine_membership(membership){
+        geneSampleMatrix(geneSampleMatrix)
 }
 
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph* graph,
                                                            vector<size_t> const& membership) :
-        MutableVertexPartition(graph, membership),
-        _fine_membership(membership)
+        MutableVertexPartition(graph, membership)
 {}
 
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph* graph) :
         MutableVertexPartition(graph)
-{ this->_fine_membership = this->_membership;}
+{}
 
 ccdModularityVertexPartition::~ccdModularityVertexPartition()
 { }
