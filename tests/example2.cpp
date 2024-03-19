@@ -63,7 +63,7 @@ int main() {
 //        std::cout << std::endl;
 //    }
 
-    Optimiser o; //create optimiser o
+    LouvainOptimiser o; //create optimiser o
     o.optimise_partition(&part); //optimise our ModularityVertexPartition obj
 
     cout << "Node\tCommunity" << endl;

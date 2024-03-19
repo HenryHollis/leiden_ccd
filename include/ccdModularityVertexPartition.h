@@ -5,8 +5,12 @@
 #ifndef LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H
 #define LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H
 #define CCD_COMM_SIZE 2
-#include "MutableVertexPartition.h"
+#include <unordered_map>
+#include <numeric>
+#include <functional>
 
+
+#include "MutableVertexPartition.h"
 class LIBLEIDENALG_EXPORT ccdModularityVertexPartition : public MutableVertexPartition
 {
 public:
@@ -16,7 +20,7 @@ public:
                                  vector<size_t> const& membership,
                                  const std::vector<double>& geneSampleMatrix);
     ccdModularityVertexPartition(Graph* graph,
-                              vector<size_t> const& membership);
+                                 vector<size_t> const& membership);
     ccdModularityVertexPartition(Graph* graph);
 
     virtual ~ccdModularityVertexPartition();
@@ -31,10 +35,12 @@ public:
     void setRefMatrix(const std::vector<double>& refMat, size_t rows, size_t cols);
 
     // Getter for geneSampleMatrix
-     const std::vector<double>& getGeneMatrix();
-     const std::vector<double> & getRefMatrix();
+    const std::vector<double>& getGeneMatrix();
+    const std::vector<double> & getRefMatrix();
 
 protected:
+    vector<size_t> _fine_membership; // Membership vector, that never is collapse
+
 private:
     // Matrix representing genes and samples
     std::vector<double> geneSampleMatrix;
@@ -43,8 +49,10 @@ private:
     std::vector<double> refMatrix;
     size_t refMatRows;
     size_t refMatCols;
-
-
+    struct vecHash {
+        size_t operator()(const std::vector<size_t>& v) const;
+    };
+    std::unordered_map<std::vector<size_t>, double, vecHash> ccdCache;
 };
 
 #endif //LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H

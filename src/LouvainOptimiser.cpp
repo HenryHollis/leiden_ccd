@@ -26,7 +26,7 @@ LouvainOptimiser::LouvainOptimiser()
     this->consider_empty_community = true;
 
     igraph_rng_init(&rng, &igraph_rngtype_mt19937);
-    igraph_rng_seed(&rng, rand());
+    igraph_rng_seed(&rng, 42);
 }
 
 LouvainOptimiser::~LouvainOptimiser()
@@ -318,6 +318,7 @@ double LouvainOptimiser::move_nodes(vector<MutableVertexPartition*> partitions, 
     // As long as there remain changes
     double eps = 1e-10;
     double improv = 0.0;
+    int num_iters = 0;
     while(nb_moves > 0)
     {
         improv = 0.0;
@@ -488,6 +489,10 @@ double LouvainOptimiser::move_nodes(vector<MutableVertexPartition*> partitions, 
                 nb_moves += 1;
             }
         }
+        std::cout<< "\n******nb_moves: "<<nb_moves<<endl;
+        for(int i=0;i<nodes.size();i++){std::cout<<nodes[i]<<" ";}
+        std::cout<<endl;
+        num_iters++;
         total_improv += improv;
     }
 

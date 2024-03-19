@@ -9,7 +9,7 @@
 class ccd_utils {
 public:
     static std::vector<double> sliceColumns(const std::vector<double> &matrix, const std::vector<size_t> &columnsToAccess,
-                                                       size_t nrow, size_t ncol);
+                                            size_t nrow, size_t ncol);
 
     static double calcCCDsimple(const std::vector<double> &ref, int num_ref_rows,
                                 const std::vector<double> &emat, size_t emat_row, size_t emat_col,
@@ -21,8 +21,6 @@ public:
     static std::vector<double> rankVector(const std::vector<double> &X);
 
     static double cor(const std::vector<double> &X, const std::vector<double> &Y);
-
-    //static const std::vector<double> refCor;  // refCor declaration
 
 };
 #endif //LEIDEN_CCD_CCD_UTILS_H
