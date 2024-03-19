@@ -9,7 +9,7 @@ using std::endl;
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph *graph, const vector<size_t> &membership,
                                                            const vector<double> &geneSampleMatrix):
         MutableVertexPartition(graph, membership),
-        geneSampleMatrix(geneSampleMatrix)
+        geneSampleMatrix(geneSampleMatrix){
 }
 
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph* graph,
