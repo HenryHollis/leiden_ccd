@@ -62,7 +62,7 @@ class LIBLEIDENALG_EXPORT MutableVertexPartition
     vector< vector<size_t> > get_communities();
     size_t n_communities();
 
-    void move_node(size_t v,size_t new_comm);
+    virtual void move_node(size_t v,size_t new_comm);
     virtual double diff_move(size_t v, size_t new_comm)
     {
       throw Exception("Function not implemented. This should be implemented in a derived class, since the base class does not implement a specific method.");
@@ -78,14 +78,14 @@ class LIBLEIDENALG_EXPORT MutableVertexPartition
     void renumber_communities(vector<size_t> const& fixed_nodes, vector<size_t> const& fixed_membership);
     void renumber_communities(vector<size_t> const& new_membership);
     void set_membership(vector<size_t> const& new_membership);
-    void relabel_communities(vector<size_t> const& new_comm_id);
+    virtual void relabel_communities(vector<size_t> const& new_comm_id);
     vector<size_t> static rank_order_communities(vector<MutableVertexPartition*> partitions);
     size_t get_empty_community();
     size_t add_empty_community();
     void from_coarse_partition(vector<size_t> const& coarse_partition_membership);
     void from_coarse_partition(MutableVertexPartition* partition);
     void from_coarse_partition(MutableVertexPartition* partition, vector<size_t> const& coarser_membership);
-    void from_coarse_partition(vector<size_t> const& coarse_partition_membership, vector<size_t> const& coarse_node);
+    virtual void from_coarse_partition(vector<size_t> const& coarse_partition_membership, vector<size_t> const& coarse_node);
 
     void from_partition(MutableVertexPartition* partition);
 
@@ -152,31 +152,37 @@ class LIBLEIDENALG_EXPORT MutableVertexPartition
 
     void set_default_attrs();
 
-  private:
+    void clean_mem();
 
-    // Keep track of the internal weight of each community
-    vector<double> _total_weight_in_comm;
-    // Keep track of the total weight to a community
-    vector<double> _total_weight_to_comm;
-    // Keep track of the total weight from a community
-    vector<double> _total_weight_from_comm;
+    size_t _n_communities;
+
+    void update_n_communities();
+
+// Keep track of the internal weight of each community
+vector<double> _total_weight_in_comm;
+// Keep track of the total weight from a community
+vector<double> _total_weight_from_comm;
+// Keep track of the total weight to a community
+vector<double> _total_weight_to_comm;
+    vector<size_t> _empty_communities;
+    vector<size_t> _cached_neigh_comms_from;
+    vector<double> _cached_weight_from_community;
+    size_t _current_node_cache_community_from;
+    vector<size_t> _cached_neigh_comms_to;
+    vector<double> _cached_weight_to_community;
+    size_t _current_node_cache_community_to;
+    vector<size_t> _cached_neigh_comms_all;
+    vector<double> _cached_weight_all_community;
+    size_t _current_node_cache_community_all;
+private:
+
     // Keep track of the total internal weight
     double _total_weight_in_all_comms;
     size_t _total_possible_edges_in_all_comms;
-    size_t _n_communities;
-
-    vector<size_t> _empty_communities;
 
     void cache_neigh_communities(size_t v, igraph_neimode_t mode);
 
-    size_t _current_node_cache_community_from; vector<double> _cached_weight_from_community; vector<size_t> _cached_neigh_comms_from;
-    size_t _current_node_cache_community_to;   vector<double> _cached_weight_to_community;   vector<size_t> _cached_neigh_comms_to;
-    size_t _current_node_cache_community_all;  vector<double> _cached_weight_all_community;  vector<size_t> _cached_neigh_comms_all;
-
-    void clean_mem();
     void init_graph_admin();
-
-    void update_n_communities();
 
 };
 

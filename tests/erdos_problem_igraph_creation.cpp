@@ -98,6 +98,7 @@ int main(void) {
 
     ccdModularityVertexPartition part(&graph); //cre
 //    part.setGeneSampleMatrix(emat, 12, 3);
+    part.set_fine_membership(part.membership());
     part.setGeneSampleMatrix(emat, 12, 15);
 
     part.setRefMatrix(refmat, 12, 12);

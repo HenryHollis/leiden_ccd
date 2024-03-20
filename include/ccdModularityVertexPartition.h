@@ -38,8 +38,14 @@ public:
     const std::vector<double>& getGeneMatrix();
     const std::vector<double> & getRefMatrix();
 
+    void set_fine_membership(vector<size_t> const& new_membership);
+    void from_coarse_partition_fine(vector<size_t> const& coarse_partition_membership, vector<size_t> const& coarse_node);
+    void relabel_communities(vector<size_t> const& new_comm_id) override;
+    void move_node(size_t v,size_t new_comm) override;
 protected:
     vector<size_t> _fine_membership; // Membership vector, that never is collapse
+    std::unordered_map<size_t, vector<size_t>> _membership_dict;
+    static static std::unordered_map<size_t, std::vector<size_t>> membership_to_dict(vector<size_t> &membership);
 
 private:
     // Matrix representing genes and samples

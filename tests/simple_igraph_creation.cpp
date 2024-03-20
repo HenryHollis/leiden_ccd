@@ -92,6 +92,7 @@ int main(void) {
     igraph_write_graph_dot(&g, stdout);
     Graph graph(&g);
     ccdModularityVertexPartition part(&graph);
+    part.set_fine_membership(part.membership());
 //    part.setGeneSampleMatrix(emat, 12, 3);
     part.setGeneSampleMatrix(emat, 12, 6);
 
