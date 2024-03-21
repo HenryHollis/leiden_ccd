@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <numeric>
 #include <functional>
+#include <TreeNode.h>
 
 
 #include "MutableVertexPartition.h"
@@ -53,6 +54,8 @@ private:
         size_t operator()(const std::vector<size_t>& v) const;
     };
     std::unordered_map<std::vector<size_t>, double, vecHash> ccdCache;
+
+    std::vector<TreeNode*>tree;
 };
 
 #endif //LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H

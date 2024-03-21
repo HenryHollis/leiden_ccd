@@ -26,6 +26,8 @@ add_library(libleidenalg
         src/ResolutionParameterVertexPartition.cpp
         src/LouvainOptimiser.cpp
         include/LouvainOptimiser.h
+        include/TreeNode.h
+        src/TreeNode.cpp
 )
 
 

@@ -19,10 +19,18 @@ ccdModularityVertexPartition::ccdModularityVertexPartition(Graph* graph,
 
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph* graph) :
         MutableVertexPartition(graph)
-{}
+{
+    for (size_t node : _membership) {
+        this->tree.push_back(new TreeNode(node));
+    }
+}
 
 ccdModularityVertexPartition::~ccdModularityVertexPartition()
-{ }
+{
+    for (auto* leaf : this->tree) {
+        delete leaf;
+    }
+}
 
 ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph)
 {
