@@ -428,7 +428,6 @@ double LouvainOptimiser::move_nodes(vector<MutableVertexPartition*> partitions, 
                         double possible_improv = 0.0;
                         for (size_t layer_2 = 0; layer_2 < nb_layers; layer_2++)
                         {
-                            std::cout<<"considering empty"<<endl;
                             possible_improv += layer_weights[layer_2]*partitions[layer_2]->diff_move(v, comm);
                         }
 #ifdef DEBUG
@@ -491,8 +490,8 @@ double LouvainOptimiser::move_nodes(vector<MutableVertexPartition*> partitions, 
             }
         }
         std::cout<< "\n******nb_moves: "<<nb_moves<<endl;
-        for(int i=0;i<nodes.size();i++){std::cout<<nodes[i]<<" ";}
-        std::cout<<endl;
+//        for(int i=0;i<nodes.size();i++){std::cout<<nodes[i]<<" ";}
+//        std::cout<<endl;
         num_iters++;
         total_improv += improv;
     }

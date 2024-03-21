@@ -134,8 +134,9 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     double ccd_diff = NAN;
     double total_weight = this->graph->total_weight()*(2.0 - this->graph->is_directed());
 
-    vector<TreeNode*> TreeNodes_in_v = searchLeaves(this->tree, old_comm)->getLeaves();
-    vector<size_t> nodes_in_v = get_ids_from_tree(TreeNodes_in_v);
+    vector<TreeNode*> verts = searchLeaves(this->tree, old_comm)->getChildren(); //all verts in old community
+    vector<TreeNode*>vert_leaves = searchLeaves(verts, v)->getLeaves();  //get nodes under vertex v
+    vector<size_t> nodes_in_v = get_ids_from_tree(vert_leaves);
 
     vector<TreeNode*> TreeNodes_in_old_comm_v = searchLeaves(this->tree, old_comm)->getLeaves();
     vector<size_t> Nodes_in_old_comm_v = get_ids_from_tree(TreeNodes_in_old_comm_v);
@@ -306,7 +307,7 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
 //    const double tolerance = 1e-15;  // Adjust this threshold based on your needs
 
     double result = diff/m  + 0.1 * ccd_diff;
-    std::cout <<"v: " << v<< "; new comm: " << new_comm <<"; old_com:" << old_comm <<"; old ccd w v:" << old_ccd_v <<"; old ccd no v:" << old_ccd_no_v  <<"; new_ccd_w_v:" <<  new_ccd_w_v << "; new_ccd_no_v:" << new_ccd_no_v<<"; mod: "<<(diff/m) << "; res:" <<result << endl;
+//    std::cout <<"v: " << v<< "; new comm: " << new_comm <<"; old_com:" << old_comm <<"; old ccd w v:" << old_ccd_v <<"; old ccd no v:" << old_ccd_no_v  <<"; new_ccd_w_v:" <<  new_ccd_w_v << "; new_ccd_no_v:" << new_ccd_no_v<<"; mod: "<<(diff/m) << "; res:" <<result << endl;
 
 //if (std::abs(result) < tolerance) {
 //        return 0.0;
