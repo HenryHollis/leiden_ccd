@@ -39,9 +39,10 @@ public:
     const std::vector<double>& getGeneMatrix();
     const std::vector<double> & getRefMatrix();
 
-protected:
-    vector<size_t> _fine_membership; // Membership vector, that never is collapse
+    void move_node(size_t v,size_t new_comm) override;
+    void relabel_communities(vector<size_t> const& new_comm_id) override;
 
+protected:
 private:
     // Matrix representing genes and samples
     std::vector<double> geneSampleMatrix;

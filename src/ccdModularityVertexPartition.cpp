@@ -1,6 +1,7 @@
 #include "ccdModularityVertexPartition.h"
 #include "ccd_utils.h"
 
+
 #ifdef DEBUG
 #include <iostream>
 using std::cerr;
@@ -20,16 +21,18 @@ ccdModularityVertexPartition::ccdModularityVertexPartition(Graph* graph,
 ccdModularityVertexPartition::ccdModularityVertexPartition(Graph* graph) :
         MutableVertexPartition(graph)
 {
-    for (size_t node : _membership) {
-        this->tree.push_back(new TreeNode(node));
+    // Create initial singleton communities.
+    for (size_t nodeID : _membership){
+        TreeNode* comm = new TreeNode(nodeID);
+        TreeNode* vert = new TreeNode(nodeID);
+        comm->addChild(vert);
+        this->tree.push_back(comm);
+
     }
 }
 
 ccdModularityVertexPartition::~ccdModularityVertexPartition()
 {
-    for (auto* leaf : this->tree) {
-        delete leaf;
-    }
 }
 
 ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph)
@@ -49,6 +52,14 @@ ccdModularityVertexPartition* ccdModularityVertexPartition::create(Graph* graph)
     tmp->refMatCols = refMatCols;
     tmp->geneMatRows = geneMatRows;
     tmp->geneMatCols = geneMatCols;
+    vector<TreeNode*> newTree; //the new tree we build for the collapse partition
+    for(int i = 0; i < this->tree.size(); i++){  //for each element of old tree vector
+        size_t comm_id = this->tree[i]->id;      //grab the ID associated with element i
+        TreeNode* comm =  new TreeNode(comm_id); //create a new TreeNode with same ID
+        comm->addChild(this->tree[i]);        //Add children of this->tree to new community
+        newTree.push_back(comm);                   //Add the whole thing to my new tree vector
+    }
+    tmp->tree = newTree;
     return tmp;
 
 }
@@ -123,13 +134,34 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     double ccd_diff = NAN;
     double total_weight = this->graph->total_weight()*(2.0 - this->graph->is_directed());
 
-    std::vector<size_t> Nodes_in_old_comm_v = this->get_community(old_comm);
-    std::vector<size_t> Nodes_in_new_comm_no_v = this->get_community(new_comm);
-    std::vector<size_t> Nodes_in_new_comm_v = this->get_community(new_comm);
-    Nodes_in_new_comm_v.push_back(v); // the nodes in the new community union v
-    std::vector<size_t> Nodes_in_old_comm_no_v = this->get_community(old_comm);
-    // Use std::remove to move the elements to be removed to the end
-    Nodes_in_old_comm_no_v.erase(std::remove(Nodes_in_old_comm_no_v.begin(), Nodes_in_old_comm_no_v.end(), v), Nodes_in_old_comm_no_v.end());
+    vector<TreeNode*> TreeNodes_in_v = searchLeaves(this->tree, old_comm)->getLeaves();
+    vector<size_t> nodes_in_v = get_ids_from_tree(TreeNodes_in_v);
+
+    vector<TreeNode*> TreeNodes_in_old_comm_v = searchLeaves(this->tree, old_comm)->getLeaves();
+    vector<size_t> Nodes_in_old_comm_v = get_ids_from_tree(TreeNodes_in_old_comm_v);
+
+    TreeNode* comm_exists = searchLeaves(this->tree, new_comm);
+    vector<size_t> Nodes_in_new_comm_no_v;
+    if(comm_exists){  //If the new node is not empty...
+        //Get all leaves of the nodes in the new comm
+        vector<TreeNode*> TreeNodes_in_new_comm_no_v =  searchLeaves(this->tree, new_comm)->getLeaves();
+        Nodes_in_new_comm_no_v = get_ids_from_tree(TreeNodes_in_new_comm_no_v);
+    }
+
+    std::vector<size_t> Nodes_in_new_comm_v;
+    Nodes_in_new_comm_v.assign(Nodes_in_new_comm_no_v.begin(), Nodes_in_new_comm_no_v.end()); //deep copy
+    Nodes_in_new_comm_v.insert(Nodes_in_new_comm_v.end(), std::begin(nodes_in_v), std::end(nodes_in_v));
+
+    std::vector<size_t> Nodes_in_old_comm_no_v;
+    Nodes_in_old_comm_no_v.assign(Nodes_in_old_comm_v.begin(), Nodes_in_old_comm_v.end()); //deep copy
+
+  // Define a lambda function to check if an element is in the array_to_delete
+    auto is_in_array_to_delete = [&](int val) {
+        return std::find(std::begin(nodes_in_v), std::end(nodes_in_v), val) != std::end(nodes_in_v);
+    };
+
+    // Use std::remove_if with the lambda function to remove elements from vec
+    Nodes_in_old_comm_no_v.erase(std::remove_if(Nodes_in_old_comm_no_v.begin(), Nodes_in_old_comm_no_v.end(), is_in_array_to_delete), Nodes_in_old_comm_no_v.end());
 
     //Change in ccd should be [ccd(new+v) + ccd(old - v)] - [ccd(old + v) + ccd(new - v)]
     double old_ccd_v = 100;
@@ -323,5 +355,21 @@ double ccdModularityVertexPartition::quality()
 #endif
     return q/m;
 }
+
+void ccdModularityVertexPartition::move_node(size_t v, size_t new_comm) {
+    size_t old_comm = _membership[v];
+    this->tree = move_node_tree(this->tree,old_comm, new_comm, v);
+    MutableVertexPartition::move_node(v, new_comm);
+
+}
+
+void ccdModularityVertexPartition::relabel_communities(const vector<size_t> &new_comm_id) {
+    MutableVertexPartition::relabel_communities(new_comm_id);
+    //Relabel elements of this->tree:
+    for (size_t i = 0; i < this->tree.size(); i++)
+        this->tree[i]->id = new_comm_id[this->tree[i]->id];
+}
+
+
 
 

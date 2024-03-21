@@ -25,23 +25,23 @@ vector<TreeNode*> TreeNode::getChildren() {
 }
 
 vector<TreeNode*> TreeNode::getLeaves() {
-    vector<TreeNode*> leaves;
-    getLeavesHelper(this, leaves);
-    return leaves;
+    vector<TreeNode*> communities;
+    getLeavesHelper(this, communities);
+    return communities;
 }
 
-void TreeNode::getLeavesHelper(const TreeNode* node, vector<TreeNode*>& leaves)const {
+void TreeNode::getLeavesHelper(const TreeNode* node, vector<TreeNode*>& communities)const {
     if (node->children.empty()) {
-        leaves.push_back(const_cast<TreeNode*>(node));
+        communities.push_back(const_cast<TreeNode*>(node));
     } else {
         for (const auto& child : node->children) {
-            getLeavesHelper(child, leaves);
+            getLeavesHelper(child, communities);
         }
     }
 }
 
-TreeNode* searchLeaves(const vector<TreeNode*>& leaves, size_t id) {
-    for (TreeNode* leaf : leaves) {
+TreeNode* searchLeaves(const vector<TreeNode*>& communities, size_t id) {
+    for (TreeNode* leaf : communities) {
         if (leaf->id == id) {
             return leaf;
         }
@@ -49,10 +49,14 @@ TreeNode* searchLeaves(const vector<TreeNode*>& leaves, size_t id) {
     return nullptr;
 }
 
-vector<TreeNode*> move_node(vector<TreeNode*>& leaves, size_t from_node_id, size_t  to_node_id, size_t childID) {
-    TreeNode* from_node = searchLeaves(leaves, from_node_id);
-    TreeNode* to_node = searchLeaves(leaves, to_node_id);
-    if (from_node && to_node){
+vector<TreeNode*> move_node_tree(vector<TreeNode*>& communities, size_t from_node_id, size_t  to_node_id, size_t childID) {
+    TreeNode* from_node = searchLeaves(communities, from_node_id);
+    TreeNode* to_node = searchLeaves(communities, to_node_id);
+    if (!to_node){  //In case a new community is needed, create it
+        to_node = new TreeNode(to_node_id);
+        communities.push_back(to_node);
+    }
+    if (from_node){
         TreeNode* childToMove = from_node->findChildById(childID);
         if (childToMove) {
             // Remove the child branch from its current parent
@@ -61,11 +65,11 @@ vector<TreeNode*> move_node(vector<TreeNode*>& leaves, size_t from_node_id, size
             // Add the child branch as a child of toNode
             to_node->addChild(childToMove);
 
-            // Check if from_node is now childless and remove it from leaves if needed
+            // Check if from_node is now childless and remove it from communities if needed
             if (from_node->children.size() == 0) {
-                auto it = std::find(leaves.begin(), leaves.end(), from_node);
-                if (it != leaves.end()) {
-                    leaves.erase(it);
+                auto it = std::find(communities.begin(), communities.end(), from_node);
+                if (it != communities.end()) {
+                    communities.erase(it);
                 }
             }
 
@@ -73,13 +77,22 @@ vector<TreeNode*> move_node(vector<TreeNode*>& leaves, size_t from_node_id, size
             cerr<<"Child with ID: "<< childID << " not found under node with ID: "<< from_node_id << "."<<endl;
 
     }else
-        cerr<<"One or both nodeIDs provided were not found in vector provided."<<endl;
-    return leaves;
+        cerr<<"from_node nodeID is not found in vector provided."<<endl;
+    return communities;
 
 }
 
-void printTree(const vector<TreeNode*>& leaves, int depth = 0) {
-    for (const auto& node : leaves) {
+vector<size_t> get_ids_from_tree(vector<TreeNode*> &communities){
+    vector<size_t> res;
+    res.reserve(communities.size());
+    for(TreeNode* comm : communities){
+        res.push_back(comm->id);
+    }
+    return res;
+}
+
+void printTree(const vector<TreeNode*>& communities, int depth) {
+    for (const auto& node : communities) {
         for (int i = 0; i < depth; ++i) {
             cout << "  ";
         }
@@ -92,25 +105,25 @@ void printTree(const vector<TreeNode*>& leaves, int depth = 0) {
     }
 }
 
-vector<TreeNode*> mergeNodes(vector<TreeNode*>& leaves, size_t id1, size_t  id2, size_t parentID) {
-    TreeNode* node1 = searchLeaves(leaves, id1);
-    TreeNode* node2 = searchLeaves(leaves, id2);
+vector<TreeNode*> mergeNodes(vector<TreeNode*>& communities, size_t id1, size_t  id2, size_t parentID) {
+    TreeNode* node1 = searchLeaves(communities, id1);
+    TreeNode* node2 = searchLeaves(communities, id2);
     if (node1 && node2) {
         TreeNode *parent = new TreeNode(parentID);  // Placeholder ID for internal nodes
         parent->addChild(node1);
         if (node1 != node2)
             parent->addChild(node2);
 
-        // Remove node1 and node2 from leaves vector
-        leaves.erase(std::remove(leaves.begin(), leaves.end(), node1), leaves.end());
+        // Remove node1 and node2 from communities vector
+        communities.erase(std::remove(communities.begin(), communities.end(), node1), communities.end());
         if (node1 != node2)
-            leaves.erase(std::remove(leaves.begin(), leaves.end(), node2), leaves.end());
+            communities.erase(std::remove(communities.begin(), communities.end(), node2), communities.end());
 
-        // Add the new parent node to the leaves vector
-        leaves.push_back(parent);
+        // Add the new parent node to the communities vector
+        communities.push_back(parent);
 
     }else
         cerr<<"One or both nodeIDs provided were not found in vector provided."<<endl;
 
-    return leaves;
+    return communities;
 }
