@@ -40,7 +40,7 @@ void TreeNode::getLeavesHelper(const TreeNode* node, vector<TreeNode*>& communit
     }
 }
 
-TreeNode* searchLeaves(const vector<TreeNode*>& communities, size_t id) {
+TreeNode* searchTreeVec(const vector<TreeNode*>& communities, size_t id) {
     for (TreeNode* leaf : communities) {
         if (leaf->id == id) {
             return leaf;
@@ -50,8 +50,8 @@ TreeNode* searchLeaves(const vector<TreeNode*>& communities, size_t id) {
 }
 
 vector<TreeNode*> move_node_tree(vector<TreeNode*>& communities, size_t from_node_id, size_t  to_node_id, size_t childID) {
-    TreeNode* from_node = searchLeaves(communities, from_node_id);
-    TreeNode* to_node = searchLeaves(communities, to_node_id);
+    TreeNode* from_node = searchTreeVec(communities, from_node_id);
+    TreeNode* to_node = searchTreeVec(communities, to_node_id);
     if (!to_node){  //In case a new community is needed, create it
         to_node = new TreeNode(to_node_id);
         communities.push_back(to_node);
@@ -106,8 +106,8 @@ void printTree(const vector<TreeNode*>& communities, int depth) {
 }
 
 vector<TreeNode*> mergeNodes(vector<TreeNode*>& communities, size_t id1, size_t  id2, size_t parentID) {
-    TreeNode* node1 = searchLeaves(communities, id1);
-    TreeNode* node2 = searchLeaves(communities, id2);
+    TreeNode* node1 = searchTreeVec(communities, id1);
+    TreeNode* node2 = searchTreeVec(communities, id2);
     if (node1 && node2) {
         TreeNode *parent = new TreeNode(parentID);  // Placeholder ID for internal nodes
         parent->addChild(node1);

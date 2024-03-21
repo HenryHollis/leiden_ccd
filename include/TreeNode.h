@@ -25,7 +25,7 @@ class TreeNode {
         void getLeavesHelper(const TreeNode *node, vector<TreeNode *> &communities) const;
 };
 
-TreeNode *searchLeaves(const vector<TreeNode *> &communities, size_t id);
+TreeNode *searchTreeVec(const vector<TreeNode *> &communities, size_t id);
 
 vector<TreeNode *> move_node_tree(vector<TreeNode *> &communities, size_t from_node_id, size_t to_node_id, size_t childID);
 
