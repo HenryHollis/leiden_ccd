@@ -135,99 +135,123 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     double ccd_diff = NAN;
     double total_weight = this->graph->total_weight()*(2.0 - this->graph->is_directed());
 
-    vector<TreeNode*> verts = searchTreeVec(this->tree, old_comm)->getChildren(); //all verts in old community
-    vector<TreeNode*>vert_leaves = searchTreeVec(verts, v)->getLeaves();  //get nodes under vertex v
-    vector<size_t> nodes_in_v = get_ids_from_tree(vert_leaves);
-
-    vector<TreeNode*> TreeNodes_in_old_comm_v = searchTreeVec(this->tree, old_comm)->getLeaves();
-    vector<size_t> Nodes_in_old_comm_v = get_ids_from_tree(TreeNodes_in_old_comm_v);
-
-    TreeNode* comm_exists = searchTreeVec(this->tree, new_comm);
-    vector<size_t> Nodes_in_new_comm_no_v;
-    if(comm_exists){  //If the new node is not empty...
-        //Get all leaves of the nodes in the new comm
-        vector<TreeNode*> TreeNodes_in_new_comm_no_v = searchTreeVec(this->tree, new_comm)->getLeaves();
-        Nodes_in_new_comm_no_v = get_ids_from_tree(TreeNodes_in_new_comm_no_v);
-    }
-
-    std::vector<size_t> Nodes_in_new_comm_v;
-    Nodes_in_new_comm_v.assign(Nodes_in_new_comm_no_v.begin(), Nodes_in_new_comm_no_v.end()); //deep copy
-    Nodes_in_new_comm_v.insert(Nodes_in_new_comm_v.end(), std::begin(nodes_in_v), std::end(nodes_in_v));
-
-    std::vector<size_t> Nodes_in_old_comm_no_v;
-    Nodes_in_old_comm_no_v.assign(Nodes_in_old_comm_v.begin(), Nodes_in_old_comm_v.end()); //deep copy
-
-  // Define a lambda function to check if an element is in the array_to_delete
-    auto is_in_array_to_delete = [&](int val) {
-        return std::find(std::begin(nodes_in_v), std::end(nodes_in_v), val) != std::end(nodes_in_v);
-    };
-
-    // Use std::remove_if with the lambda function to remove elements from vec
-    Nodes_in_old_comm_no_v.erase(std::remove_if(Nodes_in_old_comm_no_v.begin(), Nodes_in_old_comm_no_v.end(), is_in_array_to_delete), Nodes_in_old_comm_no_v.end());
-
-    //Change in ccd should be [ccd(new+v) + ccd(old - v)] - [ccd(old + v) + ccd(new - v)]
-    double old_ccd_v = 100;
-    double new_ccd_no_v = 100;
-    double old_ccd_no_v = 100;
-    double new_ccd_w_v = 100;
     if (total_weight == 0.0)
         return 0.0;
     if (new_comm != old_comm)
     {
-        // ********CALC CCD*************
-        std::vector<double> emat = this->getGeneMatrix(); //Get the expression matrix associated with the partition object
-        std::vector<double> refmat = this->getRefMatrix();
-        // calculate ccd in old community if enough nodes are aggregated into c's community:
-        if (CCD_COMM_SIZE < Nodes_in_old_comm_v.size()) {
-            auto it = this->ccdCache.find(Nodes_in_old_comm_v);
-            if (it != this->ccdCache.end()) {
-                // Result is already in the cache, return it
-                //        old_ccd =  it->second;
-                //        std::cout << "old ccd found" <<std::endl;
-            } else{
-                //calculate the result and store it
-                // try{
-                //     std::vector<double> comm_emat = ccd_utils::sliceColumns(emat, Nodes_in_old_comm, this->geneMatRows, Nodes_in_old_comm.size() );
-                std::vector<double> comm_emat_old = ccd_utils::sliceColumns(emat, Nodes_in_old_comm_v, this->geneMatRows, this->geneMatCols);
+        if(checkCommNodeCount(this->tree, CCD_COMM_SIZE)){
+            double old_ccd_v = NAN;
+            double old_ccd_no_v = NAN;
+            double new_ccd_w_v = NAN;
+            double new_ccd_no_v = NAN;
+            cout<<"All communities have >=2 members: "<< checkCommNodeCount(this->tree, CCD_COMM_SIZE)<<endl;
 
-                old_ccd_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_old, this->geneMatRows,Nodes_in_old_comm_v.size(), false);
-                //      this->ccdCache[Nodes_in_old_comm] = old_ccd;
-                // }catch (const std::out_of_range& e) {
-                //    std::cerr << "Exception caught: " << e.what() << std::endl;
-                // }
+            vector<TreeNode*> verts = searchTreeVec(this->tree, old_comm)->getChildren(); //all verts in old community
+            vector<TreeNode*>vert_leaves = searchTreeVec(verts, v)->getLeaves();  //get nodes under vertex v
+            vector<size_t> nodes_in_v = get_ids_from_tree(vert_leaves);
+
+            vector<TreeNode*> TreeNodes_in_old_comm_v = searchTreeVec(this->tree, old_comm)->getLeaves();
+            vector<size_t> Nodes_in_old_comm_v = get_ids_from_tree(TreeNodes_in_old_comm_v);
+
+            TreeNode* comm_exists = searchTreeVec(this->tree, new_comm);
+            vector<size_t> Nodes_in_new_comm_no_v;
+            if(comm_exists){  //If the new node is not empty...
+                //Get all leaves of the nodes in the new comm
+                vector<TreeNode*> TreeNodes_in_new_comm_no_v = searchTreeVec(this->tree, new_comm)->getLeaves();
+                Nodes_in_new_comm_no_v = get_ids_from_tree(TreeNodes_in_new_comm_no_v);
+            }
+
+            std::vector<size_t> Nodes_in_new_comm_v;
+            Nodes_in_new_comm_v.assign(Nodes_in_new_comm_no_v.begin(), Nodes_in_new_comm_no_v.end()); //deep copy
+            Nodes_in_new_comm_v.insert(Nodes_in_new_comm_v.end(), std::begin(nodes_in_v), std::end(nodes_in_v));
+
+            std::vector<size_t> Nodes_in_old_comm_no_v;
+            Nodes_in_old_comm_no_v.assign(Nodes_in_old_comm_v.begin(), Nodes_in_old_comm_v.end()); //deep copy
+
+            // Define a lambda function to check if an element is in the array_to_delete
+            auto is_in_array_to_delete = [&](int val) {
+                return std::find(std::begin(nodes_in_v), std::end(nodes_in_v), val) != std::end(nodes_in_v);
+            };
+
+            // Use std::remove_if with the lambda function to remove elements from vec
+            Nodes_in_old_comm_no_v.erase(std::remove_if(Nodes_in_old_comm_no_v.begin(), Nodes_in_old_comm_no_v.end(), is_in_array_to_delete), Nodes_in_old_comm_no_v.end());
+
+            // ********CALC CCD*************
+            std::vector<double> emat = this->getGeneMatrix(); //Get the expression matrix associated with the partition object
+            std::vector<double> refmat = this->getRefMatrix();
+            // calculate ccd in old community if enough nodes are aggregated into c's community:
+            if (2 < Nodes_in_old_comm_v.size()) {
+                auto it = this->ccdCache.find(Nodes_in_old_comm_v);
+                if (it != this->ccdCache.end()) {
+                    // Result is already in the cache, return it
+                    //        old_ccd =  it->second;
+                    //        std::cout << "old ccd found" <<std::endl;
+                } else{
+                    //calculate the result and store it
+                    // try{
+                    //     std::vector<double> comm_emat = ccd_utils::sliceColumns(emat, Nodes_in_old_comm, this->geneMatRows, Nodes_in_old_comm.size() );
+                    std::vector<double> comm_emat_old = ccd_utils::sliceColumns(emat, Nodes_in_old_comm_v, this->geneMatRows, this->geneMatCols);
+
+                    old_ccd_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_old, this->geneMatRows,Nodes_in_old_comm_v.size(), false);
+                    //      this->ccdCache[Nodes_in_old_comm] = old_ccd;
+                    // }catch (const std::out_of_range& e) {
+                    //    std::cerr << "Exception caught: " << e.what() << std::endl;
+                    // }
+
+                }
+            }
+            if (2 < Nodes_in_old_comm_no_v.size()) {
+                std::vector<double> comm_emat_old2 = ccd_utils::sliceColumns(emat, Nodes_in_old_comm_no_v, this->geneMatRows, this->geneMatCols);
+                old_ccd_no_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_old2, this->geneMatRows,Nodes_in_old_comm_no_v.size(), false);
 
             }
-        }
-        if (CCD_COMM_SIZE < Nodes_in_old_comm_no_v.size()) {
-            std::vector<double> comm_emat_old2 = ccd_utils::sliceColumns(emat, Nodes_in_old_comm_no_v, this->geneMatRows, this->geneMatCols);
-            old_ccd_no_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_old2, this->geneMatRows,Nodes_in_old_comm_no_v.size(), false);
+            if (2 < Nodes_in_new_comm_v.size()) {
+                std::vector<double> comm_emat_new2 = ccd_utils::sliceColumns(emat,  Nodes_in_new_comm_v, this->geneMatRows, this->geneMatCols);
+                new_ccd_w_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_new2, this->geneMatRows, Nodes_in_new_comm_v.size(), false);
 
-        }
-        if (CCD_COMM_SIZE < Nodes_in_new_comm_v.size()) {
-            std::vector<double> comm_emat_new2 = ccd_utils::sliceColumns(emat,  Nodes_in_new_comm_v, this->geneMatRows, this->geneMatCols);
-            new_ccd_w_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_new2, this->geneMatRows, Nodes_in_new_comm_v.size(), false);
-
-        }
+            }
             //calc ccd of adding v into new community
-        if (CCD_COMM_SIZE < Nodes_in_new_comm_no_v.size()) {
-            auto it = this->ccdCache.find(Nodes_in_new_comm_no_v);
-            if (it != this->ccdCache.end()) {
-                // Result is already in the cache, return it
-                //std::cout << "new ccd found" <<std::endl;
-                // new_ccd = it->second;
-            }else{
-                //    calculate the result and store it
-                //      try{
-                std::vector<double> comm_emat_new = ccd_utils::sliceColumns(emat,  Nodes_in_new_comm_no_v, this->geneMatRows, this->geneMatCols);
-                new_ccd_no_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_new, this->geneMatRows, Nodes_in_new_comm_no_v.size(), false);
-                //    this->ccdCache[Nodes_in_new_comm] = new_ccd;
-                //      }catch (const std::out_of_range& e) {
-                //    std::cerr << "Exception caught: " << e.what() << std::endl;
-                //      }
+            if (2 < Nodes_in_new_comm_no_v.size()) {
+                auto it = this->ccdCache.find(Nodes_in_new_comm_no_v);
+                if (it != this->ccdCache.end()) {
+                    // Result is already in the cache, return it
+                    //std::cout << "new ccd found" <<std::endl;
+                    // new_ccd = it->second;
+                }else{
+                    //    calculate the result and store it
+                    //      try{
+                    std::vector<double> comm_emat_new = ccd_utils::sliceColumns(emat,  Nodes_in_new_comm_no_v, this->geneMatRows, this->geneMatCols);
+                    new_ccd_no_v = ccd_utils::calcCCDsimple(refmat, this->refMatRows, comm_emat_new, this->geneMatRows, Nodes_in_new_comm_no_v.size(), false);
+                    //    this->ccdCache[Nodes_in_new_comm] = new_ccd;
+                    //      }catch (const std::out_of_range& e) {
+                    //    std::cerr << "Exception caught: " << e.what() << std::endl;
+                    //      }
 
 
+                }
             }
+            vector<double> before_ccds;
+            vector<double> after_ccds;
+            if(isfinite(old_ccd_v)){
+                before_ccds.push_back(old_ccd_v);
+            }
+            if(isfinite(new_ccd_no_v)){
+                before_ccds.push_back(new_ccd_no_v);
+            }
+            if(isfinite(new_ccd_w_v)){
+                after_ccds.push_back(new_ccd_w_v);
+            }
+            if(isfinite(old_ccd_no_v)){
+                after_ccds.push_back(old_ccd_no_v);
+            }
+            double after_avg = std::accumulate(after_ccds.begin(), after_ccds.end(), 0.0) / (double) after_ccds.size();
+            double before_avg = std::accumulate(before_ccds.begin(), before_ccds.end(), 0.0) / (double) before_ccds.size();
+
+            ccd_diff = before_avg - after_avg; //negative number returns smaller score
+//            std::cout <<"v: " << v<< "; new comm: " << new_comm <<"; old_com:" << old_comm <<"; old ccd w v:" << old_ccd_v <<"; old ccd no v:" << old_ccd_no_v  <<"; new_ccd_w_v:" <<  new_ccd_w_v << "; new_ccd_no_v:" << new_ccd_no_v << "; ccd_diff:" <<ccd_diff << endl;
+
         }
+
         //****************************
 #ifdef DEBUG
         cerr << "\t" << "old_comm: " << old_comm << endl;
@@ -291,8 +315,6 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
 #ifdef DEBUG
         cerr << "\t" << "diff: " << diff << endl;
 #endif
-        ccd_diff = (old_ccd_v + new_ccd_no_v) - (new_ccd_w_v + old_ccd_no_v); //negative number returns smaller score
-        //ccd_diff = (old_ccd_v) - new_ccd_w_v;
     }
 #ifdef DEBUG
     cerr << "exit double ccdModularityVertexPartition::diff_move((" << v << ", " << new_comm << ")" << endl;
@@ -304,15 +326,9 @@ double ccdModularityVertexPartition::diff_move(size_t v, size_t new_comm)
     else
         m = 2*this->graph->total_weight();
     ccd_diff = isfinite(ccd_diff) ? ccd_diff : 0.0;
-    // Check if the result is within a tolerance of zero
-//    const double tolerance = 1e-15;  // Adjust this threshold based on your needs
 
     double result = diff/m  + 0.1 * ccd_diff;
-//    std::cout <<"v: " << v<< "; new comm: " << new_comm <<"; old_com:" << old_comm <<"; old ccd w v:" << old_ccd_v <<"; old ccd no v:" << old_ccd_no_v  <<"; new_ccd_w_v:" <<  new_ccd_w_v << "; new_ccd_no_v:" << new_ccd_no_v<<"; mod: "<<(diff/m) << "; res:" <<result << endl;
 
-//if (std::abs(result) < tolerance) {
-//        return 0.0;
-//    }
     return result;
 }
 

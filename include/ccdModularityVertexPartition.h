@@ -4,7 +4,7 @@
 
 #ifndef LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H
 #define LEIDEN_CCD_CCDMODULARITYVERTEXPARTITION_H
-#define CCD_COMM_SIZE 2
+#define CCD_COMM_SIZE 10
 #include <unordered_map>
 #include <numeric>
 #include <functional>
